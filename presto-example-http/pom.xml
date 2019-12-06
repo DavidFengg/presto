@@ -7,7 +7,7 @@
         <version>0.230-SNAPSHOT</version>
     </parent>
 
-    <artifactId>presto-example-http</artifactId>
+    <artifactId>presto-rest-http</artifactId>
     <description>Presto - Example HTTP Connector</description>
     <packaging>presto-plugin</packaging>
 

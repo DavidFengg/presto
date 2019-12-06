@@ -103,7 +103,8 @@ public class ExampleRecordCursor
         checkState(fields != null, "Cursor has not been advanced yet");
 
         int columnIndex = fieldToColumnIndex[field];
-        return fields.get(columnIndex);
+        String fieldVal = fields.get(columnIndex);
+        return fieldVal.replaceAll("[\\[\\]{}]", "").substring(fieldVal.indexOf(":") + 1);
     }
 
     @Override
