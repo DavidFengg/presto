@@ -24,6 +24,8 @@ import io.airlift.slice.Slices;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -59,7 +61,14 @@ public class ExampleRecordCursor
         }
 
         try (CountingInputStream input = new CountingInputStream(byteSource.openStream())) {
-            lines = byteSource.asCharSource(UTF_8).readLines().iterator();
+            String[] arr = byteSource.asCharSource(UTF_8).read().split("},");
+
+            // copy string array to ArrayList
+            List<String> myList = new ArrayList<>();
+            Collections.addAll(myList, arr);
+
+            lines = myList.iterator();
+
             totalBytes = input.getCount();
         }
         catch (IOException e) {
@@ -93,6 +102,7 @@ public class ExampleRecordCursor
             return false;
         }
         String line = lines.next();
+        System.out.println(line);
         fields = LINE_SPLITTER.splitToList(line);
 
         return true;
@@ -103,8 +113,12 @@ public class ExampleRecordCursor
         checkState(fields != null, "Cursor has not been advanced yet");
 
         int columnIndex = fieldToColumnIndex[field];
-        String fieldVal = fields.get(columnIndex);
-        return fieldVal.replaceAll("[\\[\\]{}]", "").substring(fieldVal.indexOf(":") + 1);
+
+        // remove unwanted characters
+        String fieldVal = fields.get(columnIndex).replaceAll("[\\[\\]{}\"]", "");
+
+        // return the substring proceeding the ":"
+        return fieldVal.substring(fieldVal.indexOf(":") + 1);
     }
 
     @Override
