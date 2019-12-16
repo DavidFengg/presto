@@ -12,7 +12,7 @@
                     "type": "BIGINT"
                 }
             ],
-            "sources": [ "numbers-1.csv", "numbers-2.csv" ]
+            "sources": [ "numbers-1.json", "numbers-2.json" ]
         }
     ],
     "tpch": [
