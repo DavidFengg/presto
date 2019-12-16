@@ -45,6 +45,6 @@ public class TestExampleClient
         assertNotNull(table, "table is null");
         assertEquals(table.getName(), "numbers");
         assertEquals(table.getColumns(), ImmutableList.of(new ExampleColumn("text", createUnboundedVarcharType()), new ExampleColumn("value", BIGINT)));
-        assertEquals(table.getSources(), ImmutableList.of(metadata.resolve("numbers-1.csv"), metadata.resolve("numbers-2.csv")));
+        assertEquals(table.getSources(), ImmutableList.of(metadata.resolve("numbers-1.json"), metadata.resolve("numbers-2.json")));
     }
 }

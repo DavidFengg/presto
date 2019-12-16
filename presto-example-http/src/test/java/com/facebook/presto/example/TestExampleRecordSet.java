@@ -116,7 +116,7 @@ public class TestExampleRecordSet
             throws Exception
     {
         exampleHttpServer = new ExampleHttpServer();
-        dataUri = exampleHttpServer.resolve("/example-data/numbers-2.csv");
+        dataUri = exampleHttpServer.resolve("/example-data/numbers-2.json");
     }
 
     @AfterClass(alwaysRun = true)

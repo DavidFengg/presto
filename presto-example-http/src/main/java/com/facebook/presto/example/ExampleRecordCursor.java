@@ -25,6 +25,7 @@ import io.airlift.slice.Slices;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -102,8 +103,17 @@ public class ExampleRecordCursor
             return false;
         }
         String line = lines.next();
-        System.out.println(line);
-        fields = LINE_SPLITTER.splitToList(line);
+
+        // split json string to list
+        fields = new ArrayList<String>(Arrays.asList(line.split(",")));
+
+        // filter fields to value string
+        for (int i = 0; i < fields.size(); i++) {
+            String fieldVal = fields.get(i).replaceAll("[\\[\\]{}\"]", "");
+            fieldVal = fieldVal.substring(fieldVal.indexOf(":") + 1);
+
+            fields.set(i, fieldVal.trim());
+        }
 
         return true;
     }
@@ -114,11 +124,7 @@ public class ExampleRecordCursor
 
         int columnIndex = fieldToColumnIndex[field];
 
-        // remove unwanted characters
-        String fieldVal = fields.get(columnIndex).replaceAll("[\\[\\]{}\"]", "");
-
-        // return the substring proceeding the ":"
-        return fieldVal.substring(fieldVal.indexOf(":") + 1);
+        return fields.get(columnIndex);
     }
 
     @Override
