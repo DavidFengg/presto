@@ -15,7 +15,6 @@ package com.facebook.presto.example;
 
 import com.facebook.presto.spi.RecordCursor;
 import com.facebook.presto.spi.type.Type;
-import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CountingInputStream;
@@ -41,8 +40,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class ExampleRecordCursor
         implements RecordCursor
 {
-    private static final Splitter LINE_SPLITTER = Splitter.on(",").trimResults();
-
     private final List<ExampleColumnHandle> columnHandles;
     private final int[] fieldToColumnIndex;
 
@@ -65,10 +62,10 @@ public class ExampleRecordCursor
             String[] arr = byteSource.asCharSource(UTF_8).read().split("},");
 
             // copy string array to ArrayList
-            List<String> myList = new ArrayList<>();
-            Collections.addAll(myList, arr);
+            List<String> list = new ArrayList<>();
+            Collections.addAll(list, arr);
 
-            lines = myList.iterator();
+            lines = list.iterator();
 
             totalBytes = input.getCount();
         }
@@ -107,7 +104,7 @@ public class ExampleRecordCursor
         // split json string to list
         fields = new ArrayList<String>(Arrays.asList(line.split(",")));
 
-        // filter fields to value string
+        // set fields to their string value
         for (int i = 0; i < fields.size(); i++) {
             String fieldVal = fields.get(i).replaceAll("[\\[\\]{}\"]", "");
             fieldVal = fieldVal.substring(fieldVal.indexOf(":") + 1);

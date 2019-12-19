@@ -36,7 +36,10 @@ public class ExampleRecordSet
     {
         requireNonNull(split, "split is null");
 
+        // set column handles for the query
         this.columnHandles = requireNonNull(columnHandles, "column handles is null");
+
+        // set column types for the query
         ImmutableList.Builder<Type> types = ImmutableList.builder();
         for (ExampleColumnHandle column : columnHandles) {
             types.add(column.getColumnType());

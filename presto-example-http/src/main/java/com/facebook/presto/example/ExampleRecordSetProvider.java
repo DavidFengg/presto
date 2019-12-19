@@ -46,6 +46,7 @@ public class ExampleRecordSetProvider
         ExampleSplit exampleSplit = (ExampleSplit) split;
         checkArgument(exampleSplit.getConnectorId().equals(connectorId), "split is not for this connector");
 
+        // add column names to handles list
         ImmutableList.Builder<ExampleColumnHandle> handles = ImmutableList.builder();
         for (ColumnHandle handle : columns) {
             handles.add((ExampleColumnHandle) handle);
